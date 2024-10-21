@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login e Cadastro</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section>
+      <div class="box">
+        <!-- Título Login -->
+        <h1
+          id="loginTitle"
+          class="col d-flex justify-content-center"
+          style="font-family: 'Poppins'"
+        >
+          Login
+        </h1>
+
+        <!-- Formulário de Login -->
+        <form id="loginForm">
+          <div class="form-outline mb-4">
+            <input
+              type="email"
+              id="emailInput"
+              placeholder="Email"
+              class="form-control"
+            />
+            <div class="text-danger" id="emailError"></div>
+          </div>
+          <div class="form-outline mb-4">
+            <input
+              type="password"
+              id="passwordInput"
+              placeholder="Senha"
+              class="form-control"
+            />
+            <div class="text-danger" id="passwordError"></div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-custom btn-block mb-4"
+            onclick="login()"
+          >
+            LOGIN
+          </button>
+          <div class="text-center">
+            <p>
+              Não tem conta?
+              <a href="#" onclick="showRegister()">Cadastre-se</a>
+            </p>
+          </div>
+        </form>
+
+        <!-- Formulário de cadastro -->
+        <form id="registerForm" style="display: none">
+          <div class="form-outline mb-4">
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="Email"
+              class="form-control"
+            />
+            <div class="text-danger" id="registerEmailError"></div>
+          </div>
+          <div class="form-outline mb-4">
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="Senha"
+              class="form-control"
+            />
+            <div class="text-danger" id="registerPasswordError"></div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-custom btn-block mb-4"
+            onclick="register()"
+          >
+            CADASTRAR
+          </button>
+          <div class="text-center">
+            <p>
+              Já tem conta? <a href="#" onclick="showLogin()">Fazer Login</a>
+            </p>
+          </div>
+        </form>
+        <div id="feedback" class="text-center"></div>
+      </div>
+    </section>
+
+    <script>
+      // Função para mostrar o formulário de login
+      function showLogin() {
+        console.log("Exibindo formulário de login");
+        document.getElementById("loginForm").style.display = "block";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("loginTitle").style.display = "block";
+        clearFeedback();
+      }
+
+      // Função para mostrar o formulário de cadastro
+      function showRegister() {
+        console.log("Exibindo formulário de cadastro");
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("loginTitle").style.display = "none";
+        clearFeedback();
+      }
+
+      // Função para limpar mensagens de feedback
+      function clearFeedback() {
+        const feedback = document.getElementById("feedback");
+        feedback.textContent = "";
+        feedback.classList.remove("text-success", "text-danger");
+        console.log("Mensagens de feedback limpas");
+      }
+
+      // Função para validar o email
+      function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const isValid = re.test(String(email).toLowerCase());
+        console.log("Validando email:", email, "Valido:", isValid);
+        return isValid;
+      }
+
+      // Função para validar o login
+      function login() {
+        const email = document.getElementById("emailInput").value;
+        const password = document.getElementById("passwordInput").value;
+        const emailError = document.getElementById("emailError");
+        const passwordError = document.getElementById("passwordError");
+        const feedback = document.getElementById("feedback");
+
+        emailError.textContent = "";
+        passwordError.textContent = "";
+        feedback.textContent = "";
+
+        if (!validateEmail(email)) {
+          emailError.textContent = "Digite um email válido";
+          console.log("Erro de email: email inválido");
+          return;
+        }
+
+        if (password.length < 6) {
+          passwordError.textContent =
+            "A senha deve ter pelo menos 6 caracteres";
+          console.log("Erro de senha: senha muito curta");
+          return;
+        }
+
+        const user = JSON.parse(localStorage.getItem(email));
+        console.log("Verificando usuário:", user);
+
+        if (user && user.password === password) {
+          feedback.textContent = "Login realizado com sucesso!";
+          feedback.classList.remove("text-danger");
+          feedback.classList.add("text-success");
+          console.log("Login bem-sucedido");
+        } else {
+          feedback.textContent = "Email ou senha inválidos!";
+          feedback.classList.remove("text-success");
+          feedback.classList.add("text-danger");
+          console.log("Erro de login: credenciais inválidas");
+        }
+      }
+
+      // Função para cadastrar novo usuário
+      function register() {
+        const email = document.getElementById("registerEmail").value;
+        const password = document.getElementById("registerPassword").value;
+        const emailError = document.getElementById("registerEmailError");
+        const passwordError = document.getElementById("registerPasswordError");
+        const feedback = document.getElementById("feedback");
+
+        emailError.textContent = "";
+        passwordError.textContent = "";
+        feedback.textContent = "";
+
+        if (!validateEmail(email)) {
+          emailError.textContent = "Digite um email válido";
+          console.log("Erro de email: email inválido no cadastro");
+          return;
+        }
+
+        if (password.length < 6) {
+          passwordError.textContent =
+            "A senha deve ter pelo menos 6 caracteres";
+          console.log("Erro de senha: senha muito curta no cadastro");
+          return;
+        }
+
+        if (localStorage.getItem(email)) {
+          feedback.textContent = "Usuário já cadastrado!";
+          feedback.classList.remove("text-success");
+          feedback.classList.add("text-danger");
+          console.log("Erro de cadastro: usuário já cadastrado");
+          return;
+        }
+
+        const user = { email, password };
+        localStorage.setItem(email, JSON.stringify(user));
+
+        feedback.textContent = "Cadastro realizado com sucesso!";
+        feedback.classList.remove("text-danger");
+        feedback.classList.add("text-success");
+        console.log("Cadastro bem-sucedido:", user);
+        showLogin(); // Alterna para o formulário de login após o cadastro
+      }
+    </script>
+  </body>
+</html>

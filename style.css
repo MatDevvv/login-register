@@ -1,0 +1,86 @@
+/* Estilos para o botão personalizado */
+.btn-custom {
+  background-color: rgb(22, 26, 40);
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700; /* Negrito */
+}
+
+.btn-custom:hover {
+  background-color: rgb(30, 34, 50); /* Cor para o hover */
+}
+
+/* Outros estilos já existentes */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+}
+
+section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("download.gif");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  height: 100vh;
+}
+
+section .box {
+  position: relative;
+  max-width: 700px;
+  padding: 50px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+section .box::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  bottom: -20px;
+  right: -20px;
+  background-image: url("download.gif");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  filter: blur(10px);
+}
+
+section .box h1 {
+  position: relative;
+  margin: 0 0 1rem;
+  padding: 0;
+  z-index: 2;
+  font-size: 3em;
+  font-family: "Playfair Display", serif;
+}
+
+section .box form {
+  position: relative;
+  margin: 20px 0 0 0;
+  padding: 0;
+  z-index: 2;
+  line-height: 1.25;
+  opacity: 0.75;
+}
+
+section .box input {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+#feedback {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  opacity: 1;
+}
